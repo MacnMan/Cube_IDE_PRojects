@@ -139,6 +139,12 @@ void triggerOnSlotRelay(uint8_t slotNumber) {
 	case 2:
 		HAL_GPIO_WritePin(RELAY3_GPIO_Port, RELAY3_Pin, GPIO_PIN_RESET);
 		break;
+	case 3:
+		HAL_GPIO_WritePin(RELAY4_GPIO_Port, RELAY4_Pin, GPIO_PIN_RESET);
+		break;
+	case 4:
+		HAL_GPIO_WritePin(RELAY5_GPIO_Port, RELAY5_Pin, GPIO_PIN_RESET);
+		break;
 	default:
 		break;
 	}
@@ -148,6 +154,8 @@ void triggerOfSlotRelays() {
 	HAL_GPIO_WritePin(RELAY1_GPIO_Port, RELAY1_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(RELAY2_GPIO_Port, RELAY2_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(RELAY3_GPIO_Port, RELAY3_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(RELAY4_GPIO_Port, RELAY4_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(RELAY5_GPIO_Port, RELAY5_Pin, GPIO_PIN_SET);
 }
 // External Interrupt ISR Handler Callback
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -194,9 +202,16 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-	enable_dwt();
-	HAL_UART_Receive_IT(&huart2, received_slot, 1);
-	send_debug_message("Enter a slot number..");
+  HAL_GPIO_WritePin(RELAY1_GPIO_Port, RELAY1_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(RELAY2_GPIO_Port, RELAY2_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(RELAY3_GPIO_Port, RELAY3_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(RELAY4_GPIO_Port, RELAY4_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(RELAY5_GPIO_Port, RELAY5_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(RELAY6_GPIO_Port, RELAY6_Pin, GPIO_PIN_SET);
+  enable_dwt();
+  HAL_UART_Receive_IT(&huart2, received_slot, 1);
+  send_debug_message("Enter a slot number..");
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -326,6 +341,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOB, STEP_PIN_Pin|DRV_ENB_Pin|RELAY1_Pin|RELAY2_Pin
                           |RELAY3_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, RELAY4_Pin|RELAY5_Pin|RELAY6_Pin, GPIO_PIN_RESET);
+
   /*Configure GPIO pin : PB2_Pin */
   GPIO_InitStruct.Pin = PB2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
@@ -347,6 +365,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : RELAY4_Pin RELAY5_Pin RELAY6_Pin */
+  GPIO_InitStruct.Pin = RELAY4_Pin|RELAY5_Pin|RELAY6_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);

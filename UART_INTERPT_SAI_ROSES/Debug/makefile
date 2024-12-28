@@ -60,8 +60,8 @@ all: main-build
 main-build: UART_INTERPT_SAI_ROSES.elf secondary-outputs
 
 # Tool invocations
-UART_INTERPT_SAI_ROSES.elf UART_INTERPT_SAI_ROSES.map: $(OBJS) $(USER_OBJS) D:\MACNMAN\SaiRoses\SPM\UART_INTERPT_SAI_ROSES\UART_INTERPT_SAI_ROSES\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "UART_INTERPT_SAI_ROSES.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\MACNMAN\SaiRoses\SPM\UART_INTERPT_SAI_ROSES\UART_INTERPT_SAI_ROSES\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="UART_INTERPT_SAI_ROSES.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+UART_INTERPT_SAI_ROSES.elf UART_INTERPT_SAI_ROSES.map: $(OBJS) $(USER_OBJS) D:\GitHUB\Cube_IDE_PRojects\UART_INTERPT_SAI_ROSES\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "UART_INTERPT_SAI_ROSES.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\GitHUB\Cube_IDE_PRojects\UART_INTERPT_SAI_ROSES\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="UART_INTERPT_SAI_ROSES.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
